@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import br.com.RestWithMockito.domain.Users;
 import br.com.RestWithMockito.repositories.UsersRepository;
 import br.com.RestWithMockito.services.UsersServices;
+import br.com.RestWithMockito.services.exceptions.ObjectNotFoundExceptions;
 
 @Service
 public class UsersServicesImpl implements UsersServices {
@@ -18,6 +19,6 @@ public class UsersServicesImpl implements UsersServices {
     @Override
     public Users findById(Integer id) {
         Optional<Users> obj = repository.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundExceptions("Objeto não encontrado"));
     }
 }
