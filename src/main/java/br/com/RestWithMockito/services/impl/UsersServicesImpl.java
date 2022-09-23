@@ -11,6 +11,7 @@ import br.com.RestWithMockito.domain.Users;
 import br.com.RestWithMockito.domain.dto.UsersDTO;
 import br.com.RestWithMockito.repositories.UsersRepository;
 import br.com.RestWithMockito.services.UsersServices;
+import br.com.RestWithMockito.services.exceptions.DataIntegratyViolationException;
 import br.com.RestWithMockito.services.exceptions.ObjectNotFoundExceptions;
 
 @Service
@@ -34,6 +35,13 @@ public class UsersServicesImpl implements UsersServices {
 
     @Override
     public Users create(UsersDTO obj) {
+        findByEmail(obj);
         return repository.save(mapper.map(obj, Users.class));
+    }
+
+    private void findByEmail(UsersDTO obj){
+        Optional<Users> user = repository.findByEmail(obj.getEmail());
+        if (user.isPresent());
+            throw new DataIntegratyViolationException("Email já cadastrado no sistema");
     }
 }
