@@ -1,5 +1,6 @@
 package br.com.RestWithMockito.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,5 +21,9 @@ public class UsersServicesImpl implements UsersServices {
     public Users findById(Integer id) {
         Optional<Users> obj = repository.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundExceptions("Objeto não encontrado"));
+    }
+
+    public List<Users> findAll(){
+        return repository.findAll();
     }
 }
