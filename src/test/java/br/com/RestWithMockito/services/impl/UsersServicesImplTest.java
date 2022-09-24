@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import br.com.RestWithMockito.domain.Users;
 import br.com.RestWithMockito.domain.dto.UsersDTO;
 import br.com.RestWithMockito.repositories.UsersRepository;
+import br.com.RestWithMockito.services.exceptions.ObjectNotFoundExceptions;
 
 @SpringBootTest
 class UsersServicesImplTest {
@@ -57,6 +58,18 @@ class UsersServicesImplTest {
         assertEquals(ID, response.getId());
         assertEquals(NAME, response.getName());
         assertEquals(EMAIL, response.getEmail());
+    }
+
+    @Test
+    void whenFindByIdThenReturnAnObjectNotFoundException(){
+        when(repository.findById(anyInt())).thenThrow(new ObjectNotFoundExceptions("Objeto não encontrado"));
+
+        try {
+            servicesImpl.findById(ID);
+        }catch (Exception ex){
+            assertEquals(ObjectNotFoundExceptions.class, ex.getClass());
+            assertEquals("Objeto não encontrado", ex.getMessage());
+        }
     }
 
     @Test
