@@ -29,7 +29,7 @@ public class UsersServicesImpl implements UsersServices {
         return obj.orElseThrow(() -> new ObjectNotFoundExceptions("Objeto não encontrado"));
     }
 
-    public List<Users> findAll(){
+    public List<Users> findAll() {
         return repository.findAll();
     }
 
@@ -45,11 +45,17 @@ public class UsersServicesImpl implements UsersServices {
         return repository.save(mapper.map(obj, Users.class));
     }
 
-    private void findByEmail(UsersDTO obj){
-        Optional<Users> user = repository.findByEmail(obj.getEmail());
-        if (user.isPresent() && !user.get().getId().equals(obj.getId()));
-            throw new DataIntegratyViolationException("Email já cadastrado no sistema");
+    @Override
+    public void delete(Integer id) {
+        findById(id);
+        repository.deleteById(id);
     }
 
+    private void findByEmail(UsersDTO obj) {
+        Optional<Users> user = repository.findByEmail(obj.getEmail());
+        if (user.isPresent() && !user.get().getId().equals(obj.getId())) {
+            throw new DataIntegratyViolationException("Email já cadastrado no sistema");
+        }
+    }
 
 }
