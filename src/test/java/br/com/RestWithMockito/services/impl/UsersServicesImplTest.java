@@ -2,7 +2,9 @@ package br.com.RestWithMockito.services.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import br.com.RestWithMockito.domain.Users;
 import br.com.RestWithMockito.domain.dto.UsersDTO;
 import br.com.RestWithMockito.repositories.UsersRepository;
+import br.com.RestWithMockito.services.exceptions.DataIntegratyViolationException;
 import br.com.RestWithMockito.services.exceptions.ObjectNotFoundExceptions;
 
 @SpringBootTest
@@ -91,7 +94,32 @@ class UsersServicesImplTest {
     }
 
     @Test
-    void create() {
+    void whenCreateThenReturnSccess() {
+        when(repository.save(any())).thenReturn(users);
+
+        Users response = servicesImpl.create(usersDTO);
+
+        assertNotNull(response);
+        assertEquals(Users.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(PASSWORD, response.getPassword());
+
+    }
+
+    @Test
+    void whenCreateThenReturnAnDataIntegrityViolationException() {
+        when(repository.findByEmail(anyString())).thenReturn(optionalUsers);
+
+        try {
+            optionalUsers.get().setId(2);
+            servicesImpl.create(usersDTO);
+        }catch (Exception ex){
+            assertEquals(DataIntegratyViolationException.class, ex.getClass());
+            assertEquals("Email já cadastrado no sistema", ex.getMessage());
+        }
+
     }
 
     @Test
