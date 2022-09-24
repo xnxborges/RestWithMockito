@@ -123,7 +123,18 @@ class UsersServicesImplTest {
     }
 
     @Test
-    void update() {
+    void whenUpdateThenReturnSccess() {
+        when(repository.save(any())).thenReturn(users);
+
+        Users response = servicesImpl.update(usersDTO);
+
+        assertNotNull(response);
+        assertEquals(Users.class, response.getClass());
+        assertEquals(ID, response.getId());
+        assertEquals(NAME, response.getName());
+        assertEquals(EMAIL, response.getEmail());
+        assertEquals(PASSWORD, response.getPassword());
+
     }
 
     @Test
