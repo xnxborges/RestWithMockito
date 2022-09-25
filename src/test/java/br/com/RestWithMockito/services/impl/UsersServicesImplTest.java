@@ -29,7 +29,6 @@ import br.com.RestWithMockito.services.exceptions.ObjectNotFoundExceptions;
 
 @SpringBootTest
 class UsersServicesImplTest {
-
     public static final Integer ID = 1;
     public static final String NAME = "Natan";
     public static final String EMAIL = "email@email.com";
