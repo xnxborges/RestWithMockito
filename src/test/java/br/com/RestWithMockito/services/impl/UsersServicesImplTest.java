@@ -1,18 +1,10 @@
 package br.com.RestWithMockito.services.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-import java.util.Optional;
-
+import br.com.RestWithMockito.domain.Users;
+import br.com.RestWithMockito.domain.dto.UsersDTO;
+import br.com.RestWithMockito.repositories.UsersRepository;
+import br.com.RestWithMockito.services.exceptions.DataIntegratyViolationException;
+import br.com.RestWithMockito.services.exceptions.ObjectNotFoundExceptions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,11 +13,13 @@ import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import br.com.RestWithMockito.domain.Users;
-import br.com.RestWithMockito.domain.dto.UsersDTO;
-import br.com.RestWithMockito.repositories.UsersRepository;
-import br.com.RestWithMockito.services.exceptions.DataIntegratyViolationException;
-import br.com.RestWithMockito.services.exceptions.ObjectNotFoundExceptions;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UsersServicesImplTest {
@@ -44,9 +38,7 @@ class UsersServicesImplTest {
 
     private Users users;
     private UsersDTO usersDTO;
-
     private Optional<Users> optionalUsers;
-
 
     @BeforeEach
     void setUp() {
@@ -96,7 +88,7 @@ class UsersServicesImplTest {
     }
 
     @Test
-    void whenCreateThenReturnSccess() {
+    void whenCreateThenReturnSuccess() {
         when(repository.save(any())).thenReturn(users);
 
         Users response = servicesImpl.create(usersDTO);
@@ -125,7 +117,7 @@ class UsersServicesImplTest {
     }
 
     @Test
-    void whenUpdateThenReturnSccess() {
+    void whenUpdateThenReturnSuccess() {
         when(repository.save(any())).thenReturn(users);
 
         Users response = servicesImpl.update(usersDTO);
