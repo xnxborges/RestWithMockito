@@ -1,15 +1,14 @@
-package br.com.RestWithMockito.services.exceptions;
+package br.com.RestWithMockito.resources.exceptions;
 
-import java.time.LocalDateTime;
-
-import javax.servlet.http.HttpServletRequest;
-
+import br.com.RestWithMockito.services.exceptions.DataIntegratyViolationException;
+import br.com.RestWithMockito.services.exceptions.ObjectNotFoundExceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.com.RestWithMockito.resources.exceptions.StandardErrors;
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
