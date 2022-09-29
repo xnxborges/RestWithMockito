@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class UsersResourcesTest {
@@ -29,7 +29,6 @@ class UsersResourcesTest {
     public static final String NAME = "Natan";
     public static final String EMAIL = "email@email.com";
     public static final String PASSWORD = "123";
-    public static final String NOTFOUNDOBJECT = "Objeto não encontrado";
 
     private Users users;
     private UsersDTO usersDTO;
@@ -118,7 +117,17 @@ class UsersResourcesTest {
     }
 
     @Test
-    void delete() {
+    void whenDeleteThenReturnSUccess() {
+        doNothing().when(servicesImpl).delete(anyInt());
+
+        ResponseEntity<UsersDTO> response = resources.delete(ID);
+
+        assertNotNull(response);
+        assertEquals(ResponseEntity.class, response.getClass());
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+
+        verify(servicesImpl, times(1)).delete(anyInt());
+
     }
 
     private void startUsers(){
